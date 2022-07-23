@@ -25,7 +25,7 @@ export class Rando {
 }
 
 export async function loadRandos() {
-    let response = await fetch("../data/randos.json")
+    let response = await fetch("./data/randos.json")
     let data = await response.json()
     let result = []
     for (let rawRando of data) {
