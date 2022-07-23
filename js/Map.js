@@ -19,6 +19,7 @@ export class Map {
     constructor() {
         this.map = L.map("map").setView(CENTER, 5)
         this.points = []
+        this.pathes = []
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             minZoom: 5,
             attribution: ATTRIBUTION,
@@ -35,6 +36,15 @@ export class Map {
         })
         marker.addTo(this.map)
         this.points.push(marker)
+    }
+
+    addPath(coordinates) {
+        let polyline = L.polyline(
+            coordinates,
+            {color: 'red'}
+        ).addTo(this.map)
+        this.pathes.push(polyline)
+        this.map.fitBounds(polyline.getBounds())
     }
 }
 

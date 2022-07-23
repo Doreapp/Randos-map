@@ -1,7 +1,9 @@
 
 export class GeoShape {
     constructor (coordinates=[]) {
-        this.coordinates = coordinates
+        this.coordinates = coordinates.map(
+            coor => [coor[1], coor[0]]
+        )
     }
 }
 

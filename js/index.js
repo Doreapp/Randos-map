@@ -6,9 +6,13 @@ function buildMap() {
 }
 
 function displayRandos(map, randos) {
+    /* Use to display every randos' positions
     for (let rando of randos) {
         rando.addTo(map)
-    }
+    } */
+    let coords = randos[0].geo_shape.coordinates
+    console.log(coords)
+    map.addPath(coords)
 }
 
 function main() {
