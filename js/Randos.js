@@ -62,8 +62,7 @@ export class Rando {
         if (this.commune !== undefined) {
             result["Commune"] =  capitalizeFirstLetter(this.commune.toLowerCase())
         }
-        // addIfDefined(result, "Résumé", this.descriptifsynthetique)
-        // addIfDefined(result, "Description", this.descriptif)
+        addIfDefined(result, "Résumé", this.descriptifsynthetique)
         return result
     }
 

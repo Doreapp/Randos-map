@@ -90,6 +90,7 @@ export class Map {
         marker.on("click", () => {
             if (displayed) {
                 polyline.remove()
+                this.info.update()
             } else {
                 if (polyline !== undefined) {
                     polyline.addTo(this.map)
