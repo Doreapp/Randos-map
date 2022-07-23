@@ -13,7 +13,7 @@ export class Rando {
         this.commune = args.fields.commune
         this.difficulte = args.fields.difficulte
         this.published = args.fields.published
-        this.geo_shape = new GeoShape(args.fields.geo_point_2d.coordinates)
+        this.geo_shape = new GeoShape(args.fields.geo_shape.coordinates)
     }
 }
 
