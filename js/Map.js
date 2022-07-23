@@ -47,12 +47,13 @@ export class Map {
             coordinates,
             {color: color}
         ).addTo(this.map)
-        this.pathes.push(polyline)
         this.map.fitBounds(polyline.getBounds())
+        return polyline
     }
 
     addRando(rando) {
         const color = COLORS[rando.difficulte.toLowerCase()]
+        let polyline = undefined, displayed=false
         let marker = L.circleMarker(
             rando.geo_point,
             {
@@ -61,8 +62,15 @@ export class Map {
             }
         )
         marker.on("click", () => {
-            console.log("Display rando", rando)
-            this.addPath(rando.geo_shape.coordinates, color)
+            if (displayed) {
+                polyline.remove()
+            } else if (polyline !== undefined) {
+                polyline.addTo(this.map)
+                this.map.fitBounds(polyline.getBounds())
+            } else {
+                polyline = this.addPath(rando.geo_shape.coordinates, color)
+            }
+            displayed = !displayed
         })
         marker.addTo(this.map)
         this.points.push(marker)
