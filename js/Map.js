@@ -16,9 +16,6 @@ const COLORS = {
     "difficile": "#e64a19",
 }
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 /**
  * Create an info element to display on the top right of the map
@@ -100,12 +97,7 @@ export class Map {
                 } else {
                     polyline = this.addPath(rando.geo_shape.coordinates, color)
                 }
-                this.info.update({
-                    Difficulté: rando.difficulte,
-                    Taille: rando.length_linear.toFixed(2) + " km",
-                    Commune: capitalizeFirstLetter(rando.commune.toLowerCase()),
-                    Catégorie: rando.category
-                })
+                this.info.update(rando.props)
             }
             displayed = !displayed
         })
