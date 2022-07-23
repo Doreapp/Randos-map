@@ -1,3 +1,4 @@
+
 export class GeoShape {
     constructor (coordinates=[]) {
         this.coordinates = coordinates
@@ -14,6 +15,10 @@ export class Rando {
         this.difficulte = args.fields.difficulte
         this.published = args.fields.published
         this.geo_shape = new GeoShape(args.fields.geo_shape.coordinates)
+    }
+
+    addTo(map) {
+        map.addPoint(this.geo_point, this)
     }
 }
 

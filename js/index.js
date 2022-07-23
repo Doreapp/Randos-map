@@ -2,15 +2,21 @@ import { Map } from "./Map.js";
 import { loadRandos } from "./Randos.js"
 
 function buildMap() {
-    let map = new Map()
+    return new Map()
+}
+
+function displayRandos(map, randos) {
+    for (let rando of randos) {
+        rando.addTo(map)
+    }
 }
 
 function main() {
-    buildMap()
+    let map = buildMap()
     loadRandos()
         .then(randos => {
-            console.log(randos.length)
-            console.log(randos)
+            console.log(randos.length + " randos loaded succesfully")
+            displayRandos(map, randos)
         })
         .catch(err => {
             console.warn("Error loading randos", err)
