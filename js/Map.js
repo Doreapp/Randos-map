@@ -55,6 +55,8 @@ export class Map {
         }).addTo(this.map)
         this.info = createInfoElement()
         this.info.addTo(this.map)
+        this.map.on('locationfound', e => this.onLocationFound(e))
+        this.map.locate({setView: true, maxZoom: 16})
     }
 
     addPoint(coordinates, args = {}) {
@@ -103,6 +105,10 @@ export class Map {
             displayed = !displayed
         })
         marker.addTo(this.map)
+    }
+
+    onLocationFound (e) {
+        L.circle(e.latlng, e.accuracy).addTo(this.map)
     }
 }
 
