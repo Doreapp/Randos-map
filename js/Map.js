@@ -57,6 +57,9 @@ export class Map {
         this.info.addTo(this.map)
         this.map.on('locationfound', e => this.onLocationFound(e))
         this.map.locate({setView: true, maxZoom: 16})
+        this.markers = new L.FeatureGroup()
+        this.map.addLayer(this.markers)
+        this.pathes = []
     }
 
     addPoint(coordinates, args = {}) {
@@ -67,7 +70,7 @@ export class Map {
         marker.on("click", () => {
             console.log(args)
         })
-        marker.addTo(this.map)
+        marker.addTo(this.markers)
     }
 
     addPath(coordinates, color = "red") {
@@ -76,6 +79,7 @@ export class Map {
             { color: color }
         ).addTo(this.map)
         this.map.fitBounds(polyline.getBounds())
+        this.pathes.push(polyline)
         return polyline
     }
 
@@ -104,11 +108,16 @@ export class Map {
             }
             displayed = !displayed
         })
-        marker.addTo(this.map)
+        marker.addTo(this.markers)
     }
 
     onLocationFound (e) {
         L.circle(e.latlng, e.accuracy).addTo(this.map)
+    }
+
+    clear () {
+        this.markers.clearLayers()
+        this.pathes.forEach(path => path.remove())
     }
 }
 
