@@ -14,7 +14,7 @@ function filterRandos() {
     let maxDuration = store.filters.maxDuration.value
     let minLength = store.filters.minLength.value
     let maxLength = store.filters.maxLength.value
-    let balisageRequired = store.filters.balisage.checked !== undefined
+    let balisageRequired = store.filters.balisage.checked
     let filteredRandos = store.randos.filter(rando => {
         if (balisageRequired && rando.balisage === undefined)
             return false
