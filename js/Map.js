@@ -56,7 +56,7 @@ export class Map {
         this.info = createInfoElement()
         this.info.addTo(this.map)
         this.map.on('locationfound', e => this.onLocationFound(e))
-        this.map.locate({setView: true, maxZoom: 16})
+        this.map.locate({ setView: false, maxZoom: 16 })
         this.markers = new L.FeatureGroup()
         this.map.addLayer(this.markers)
         this.pathes = []
@@ -83,39 +83,51 @@ export class Map {
         return polyline
     }
 
+    changeRandoFocus(rando) {
+        if (rando._ === undefined) {
+            return
+        }
+        if (rando._.displayed) {
+            rando._.polyline.remove()
+            this.info.update()
+        } else {
+            if (rando._.polyline !== undefined) {
+                rando._.polyline.addTo(this.map)
+                this.map.fitBounds(rando._.polyline.getBounds())
+            } else {
+                rando._.polyline = this.addPath(rando.geo_shape.coordinates, rando._.color)
+            }
+            this.info.update(rando.props)
+            if (window.onRandoClicked !== undefined) {
+                window.onRandoClicked(rando)
+            }
+        }
+        rando._.displayed = !rando._.displayed
+    }
+
     addRando(rando) {
-        const color = COLORS[rando.difficulte.toLowerCase()]
-        let polyline = undefined, displayed = false
-        let marker = L.circleMarker(
+        rando._ = {}
+        rando._.color = COLORS[rando.difficulte.toLowerCase()]
+        rando._.polyline = undefined
+        rando._.displayed = false
+        rando._.marker = L.circleMarker(
             rando.geo_point,
             {
                 ...MARKER_CONFIG,
-                fillColor: color
+                fillColor: rando._.color
             }
         )
-        marker.on("click", () => {
-            if (displayed) {
-                polyline.remove()
-                this.info.update()
-            } else {
-                if (polyline !== undefined) {
-                    polyline.addTo(this.map)
-                    this.map.fitBounds(polyline.getBounds())
-                } else {
-                    polyline = this.addPath(rando.geo_shape.coordinates, color)
-                }
-                this.info.update(rando.props)
-            }
-            displayed = !displayed
+        rando._.marker.on("click", () => {
+            this.changeRandoFocus(rando)
         })
-        marker.addTo(this.markers)
+        rando._.marker.addTo(this.markers)
     }
 
-    onLocationFound (e) {
+    onLocationFound(e) {
         L.circle(e.latlng, e.accuracy).addTo(this.map)
     }
 
-    clear () {
+    clear() {
         this.markers.clearLayers()
         this.pathes.forEach(path => path.remove())
     }

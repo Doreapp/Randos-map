@@ -44,10 +44,32 @@ function displayRandos(randos) {
     for (let rando of randos) {
         store.map.addRando(rando)
     }
+    let url = window.location.href
+    let index = url.indexOf("?")
+    if (index >= 0) {
+        let id = url.substring(index + "?id=".length)
+        let matching = randos.filter(rando => rando.id == id)
+        if (matching.length == 1) {
+            store.map.changeRandoFocus(matching[0])
+        }
+    }
+}
+
+function initListeners() {
+    window.onRandoClicked = (rando) => {
+        let url = window.location.href
+        let index = url.indexOf("?")
+        if (index >= 0) {
+            url = url.substring(0, index)
+        }
+        url += "?id=" + rando.id
+        window.history.pushState({}, document.title, url)
+    }
 }
 
 function main() {
     setupFilters()
+    initListeners()
     store.map = buildMap()
     loadRandos()
         .then(randos => {

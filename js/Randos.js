@@ -1,6 +1,6 @@
 
 export class GeoShape {
-    constructor (coordinates=[]) {
+    constructor(coordinates = []) {
         this.coordinates = coordinates.map(
             coor => [coor[1], coor[0]]
         )
@@ -24,7 +24,8 @@ function addIfDefined(dict, name, value) {
 }
 
 export class Rando {
-    constructor (args={}) {
+    constructor(args = {}) {
+        this.id = args.recordid
         this.length_linear = args.fields.lineaire
         this.geo_point = args.fields.geo_point_2d
         this.category = args.fields.cat
@@ -60,7 +61,7 @@ export class Rando {
         addIfDefined(result, "Catégorie", this.category)
         addIfDefined(result, "Type", this.type)
         if (this.commune !== undefined) {
-            result["Commune"] =  capitalizeFirstLetter(this.commune.toLowerCase())
+            result["Commune"] = capitalizeFirstLetter(this.commune.toLowerCase())
         }
         addIfDefined(result, "Résumé", this.descriptifsynthetique)
         return result
